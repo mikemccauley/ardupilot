@@ -37,7 +37,10 @@ static void init_tracker()
     // we have a 2nd serial port for telemetry
     hal.uartC->begin(map_baudrate(g.serial1_baud, SERIAL1_BAUD),
                      128, SERIAL1_BUFSIZE);
-    gcs[1].init(hal.uartC);
+    if (g.proxy_mode == true)
+        proxy_vehicle.init(hal.uartC);
+    else
+        gcs[1].init(hal.uartC);
 
     mavlink_system.sysid = g.sysid_this_mav;
 
